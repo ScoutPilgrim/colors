@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    #heading{
+      top:2%;
+      left:50%;
+      position:fixed;
+      font-size: 28px;
+      margin-right: -50%;
+      transform: translate(-50%);
+    }
+    #primtext{
+      text-align: center;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%);
+    }
+    .input{
+      border-width: 3px;
+      border-color: black;
+      text-align: center;
+      background-color: white;
+    }
+    #button1{
+      text-align: center;
+      width: 60px;
+      height:60px;
+      position: fixed;
+      top: 60%;
+      left: 50%;
+      margin-right: -50%;
+      transform: translate(-50%);
+    }
+  </style>
+  <head>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script>
+      oldR = 255;
+      oldG = 255;
+      oldB = 255;
+
+      $(document).ready(function(){
+        $("button").click(function(){
+          console.log('test');
+          var R = $("#input1").val();
+          console.log(R);
+          var G = $("#input2").val();
+          var B = $("#input3").val();
+          changeBack(R, G, B, oldR, oldG, oldB);
+        });
+      });
+
+      function Rcalc(oldR, R, dif){
+        var num = 0;
+        if(oldR > R){
+          num = oldR - R;
+          if((oldR - (num/dif) > R)){
+            oldR = oldR - (num/dif);
+          }else{
+            oldR = R;
+          }
+        }
+        if(R > oldR){
+          num = R - oldR;
+          if((oldR + (num/dif) < R)){
+            oldR = oldR + (num/dif);
+          }else{
+            oldR = R;
+          }
+        }
+        return Math.round(oldR);
+      }
+      function Gcalc(oldG, G, dif){
+        var num = 0;
+        if(oldG > G){
+          num = oldG - G;
+          if((oldG - (num/dif) > G)){
+            oldG = oldG - (num/dif);
+          }else{
+            oldG = G;
+          }
+        }
+        if(G > oldG){
+          num = G - oldG;
+          if((oldG + (num/dif) < G)){
+            oldG = oldG + (num/dif);
+          }else{
+            oldG = G;
+          }
+        }
+        return Math.round(oldG);
+      }
+      function Bcalc(oldB, B, dif){
+        var num = 0;
+        if(oldB > B){
+          num = oldB - B;
+          if((oldB - (num/dif) > B)){
+            oldB = oldB - (num/dif);
+          }else{
+            oldB = B;
+          }
+        }
+        if(B > oldB){
+          num = B - oldB;
+          if((oldB + (num/dif) < B)){
+            oldB = oldB + (num/dif);
+          }else{
+            oldB = B;
+          }
+        }
+        return Math.round(oldB);
+
+      }
+
+      function changeBack(newR, newG, newB, oldR, oldG, oldB){
+        var dif = 20;
+        for(i = 0; i <= dif; i++){
+          setTimeout(function() {
+            var RGB = "rgb("+oldR+", "+oldG+", "+oldB+")";
+            oldR = Rcalc(oldR, newR, dif);
+            oldG = Gcalc(oldG, newG, dif);
+            oldB = Bcalc(oldB, newG, dif);
+            $("body").css("background-color", RGB);
+          }, 50 * i);
+
+        }
+
+
+      }
+    </script>
+    <title>Color Changer</title>
+  </head>
+  <body>
+    <div id="heading"><b>Color Changer</b></div>
+    <div id="primtext">
+      <input class="input"id="input1" type="text" placeholder="R"/>
+      <input class="input"id="input2" type="text" placeholder="G"/>
+      <input class="input"id="input3" type="text" placeholder="B"/>
+    </div>
+    <button type="button"id="button1" >GO</button>
+  </body>
+
+</html>
